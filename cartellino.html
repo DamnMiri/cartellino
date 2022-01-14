@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Cartellino</title>
+</head>
+<body style="background-image: url('logo.png');background-repeat: no-repeat;">
+	<div style="width: 100%">
+	<div style="width:20%;display: flex;flex-direction: column;margin: auto">
+		<h2>Calcalatore orario di uscita</h2>
+		<label style="margin-top: 10px">Orario di ingresso</label>
+		<input id="hour" type="time" name="hour">
+
+		<label style="margin-top: 10px">Ore giornata</label>
+		<select id="giornata">
+			<option value="6" selected="selected">6</option>
+			<option value="9">9</option>
+		</select>
+
+		<label style="margin-top: 10px">Minuti di pausa</label>
+		<input id="pausa" type="number" name="pausa">
+
+		<label style="margin-top: 10px">Orario di uscita</label>
+		<input id="uscita" type="text" name="uscita" disabled>
+	</div>
+	</div>
+</body>
+
+
+<script type="text/javascript">
+	let hour = document.getElementById("hour");
+	let giornata = document.getElementById("giornata");
+	let pausa = document.getElementById("pausa");
+	let uscita = document.getElementById("uscita");
+
+	hour.addEventListener("change", calc_uscita);
+	pausa.addEventListener("keyup", calc_uscita);
+	giornata.addEventListener("change", calc_uscita);
+
+
+	function calc_uscita()
+	{
+		if (hour.value)
+		{	
+			let min_uscita = new Date();
+			min_uscita.setHours(parseInt(hour.value.split(":")[0]));
+			min_uscita.setMinutes(parseInt(hour.value.split(":")[1]));
+			let time = 0;
+			if (pausa.value> 0)
+			{
+				time = time + parseInt(pausa.value);	
+			}
+			if (giornata.value == 9)
+			{
+				time = time + 9*60 + 30;
+			}
+			else
+			{	
+				time = time + 6*60;
+			}
+			min_uscita = addMinutes(min_uscita, time);
+			uscita.value = ("0"+min_uscita.getHours()).slice(-2) + ":" + ("0"+min_uscita.getMinutes()).slice(-2);
+		}
+	}
+
+	function addMinutes(date, minutes) {
+    	return new Date(date.getTime() + minutes*60000);
+	}
+
+</script>
+
+</html>
