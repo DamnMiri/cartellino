@@ -13,6 +13,7 @@
 		<label style="margin-top: 10px">Ore giornata</label>
 		<select id="giornata">
 			<option value="6" selected="selected">6</option>
+			<option value="8">8</option>
 			<option value="9">9</option>
 		</select>
 
@@ -45,17 +46,14 @@
 			min_uscita.setHours(parseInt(hour.value.split(":")[0]));
 			min_uscita.setMinutes(parseInt(hour.value.split(":")[1]));
 			let time = 0;
-			if (pausa.value> 0)
+			if (pausa.value > 0)
 			{
 				time = time + parseInt(pausa.value);	
 			}
-			if (giornata.value == 9)
+			time = time + giornata.value*60 
+			if (giornata.value > 6)
 			{
-				time = time + 9*60 + 30;
-			}
-			else
-			{	
-				time = time + 6*60;
+				time = time + 30;
 			}
 			min_uscita = addMinutes(min_uscita, time);
 			uscita.value = ("0"+min_uscita.getHours()).slice(-2) + ":" + ("0"+min_uscita.getMinutes()).slice(-2);
